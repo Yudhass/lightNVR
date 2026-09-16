@@ -1,0 +1,19 @@
+
+services:
+  lightnvr:
+    image: ghcr.io/opensensor/lightnvr:latest
+    container_name: lightnvr
+    restart: unless-stopped
+    ports:
+      - "8080:8080"   # Web UI Utama
+      - "8554:8554"   # RTSP Streaming
+      - "8555:8555/tcp" # WebRTC Signaling
+      - "8555:8555/udp" # WebRTC Media
+      - "1984:1984"   # go2rtc API
+    volumes:
+      - /lightnvr/config:/etc/lightnvr
+      - /lightnvr/data:/var/lib/lightnvr/data
+    environment:
+      - TZ=Asia/Jakarta  # Sesuaikan dengan zona waktu Anda
+      - LIGHTNVR_LISTEN=0.0.0.0:8080
+      - GO2RTC_CONFIG_PERSIST=true
